@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from .models import UserData
 from .forms import UserForm
 from rest_framework import generics
+from rest_framework.views import APIView
 from .serializers import UserDetailSerializer, UserSimpleSerializer
 
 class UsersSimpleList(generics.ListAPIView):
@@ -16,30 +17,22 @@ class UsersDetailsList(generics.ListAPIView):
     serializer_class = UserDetailSerializer
     lookup_field = "username"
 
-def index(request):
-    if len(User.objects.filter(id=request.user.id)) < 1:
-        return redirect('login')
-
-    return render(request, "index.html")
-
-def user_login(request):
-    if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']
+class UserLoginView(APIView):
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             return redirect('index')
         return render(request, "login.html", {"invalid": True})
 
-    return render(request, "login.html", {"invalid": False})
+    def get(self, request):
+        return render(request, "login.html", {"invalid": False})
 
-def user_logout(request):
-    logout(request)
-    return redirect('index')
 
-def user_registration(request):
-    if request.method == "POST":
+class UserRegistrationView(APIView):
+    def post(self, request):
         user_form = UserForm(request.POST)
         if user_form.is_valid():
             username = user_form.cleaned_data['username']
@@ -50,6 +43,21 @@ def user_registration(request):
                 user = authenticate(user, username=username, password=password)
                 login(request, user)
                 return redirect('index')
-            return render(request, 'registration.html', {'invalid': True, 'form': user_form})
+        return render(request, 'registration.html', {'invalid': True, 'form': user_form})
 
-    return render(request, 'registration.html', {'invalid': False, 'form': UserForm()})
+    def get(self, request):
+        return render(request, 'registration.html', {'invalid': False, 'form': UserForm()})
+
+
+def index(request):
+    if len(User.objects.filter(id=request.user.id)) < 1:
+        return redirect('login')
+
+    return render(request, "index.html")
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('index')
+
+
