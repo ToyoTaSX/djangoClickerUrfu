@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from .models import UserData
 from .forms import UserForm
 from rest_framework import generics
@@ -49,10 +50,8 @@ class UserRegistrationView(APIView):
         return render(request, 'registration.html', {'invalid': False, 'form': UserForm()})
 
 
+@login_required(login_url="login")
 def index(request):
-    if len(User.objects.filter(id=request.user.id)) < 1:
-        return redirect('login')
-
     return render(request, "index.html")
 
 
