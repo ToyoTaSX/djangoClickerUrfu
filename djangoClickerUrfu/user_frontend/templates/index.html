@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Кликер</title>
+    <script src="{% static 'js/script.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"/>
+</head>
+<body>
+<main>
+<div class="clicker">
+    <h2>Монетки <span id="points"></span></h2>
+    <h3>Сила <span id="click-power"></span></h3>
+    <button onclick="call_click()"><span>клик</span></button>
+</div>
+<div>
+    <div id="boosts-holder">
+    </div>
+</div>
+</main>
+</body>
+</html>

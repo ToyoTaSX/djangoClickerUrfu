@@ -2,12 +2,11 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from .models import UserData
 from .forms import UserForm
 from rest_framework import generics
 from rest_framework.views import APIView
 from .serializers import UserDetailSerializer, UserSimpleSerializer
+from game_core_api import models as game_models
 
 class UsersSimpleList(generics.ListAPIView):
     queryset = User.objects.all()
@@ -41,6 +40,8 @@ class UserRegistrationView(APIView):
             existing_user = User.objects.filter(username=username)
             if len(existing_user) == 0:
                 user = user_form.save()
+                core = game_models.Core(user=user)
+                core.save()
                 user = authenticate(user, username=username, password=password)
                 login(request, user)
                 return redirect('index')
@@ -48,11 +49,6 @@ class UserRegistrationView(APIView):
 
     def get(self, request):
         return render(request, 'registration.html', {'invalid': False, 'form': UserForm()})
-
-
-@login_required(login_url="login")
-def index(request):
-    return render(request, "index.html")
 
 
 def user_logout(request):
