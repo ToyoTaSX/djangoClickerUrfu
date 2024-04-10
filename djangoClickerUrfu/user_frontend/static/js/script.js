@@ -10,11 +10,18 @@ function call_click() {
         }).then(data => {
             document.getElementById('points').innerText = data.core.points
             document.getElementById('click-power').innerText = data.core.click_power
+            let img = document.getElementById('hardbass-img')
+            img.setAttribute('src', data.core.frame_url)
             check_win(data.core.points)
             if (data.is_level_up) {
                 get_boosts()
             }
         }).catch(error => console.log(error))
+    update_boosts_status()
+    rewindGif()
+}
+
+function rewindGif() {
 }
 
 function game_status() {
@@ -29,7 +36,22 @@ function game_status() {
         document.getElementById('points').innerText = data.core.points
         document.getElementById('click-power').innerText = data.core.click_power
         check_win(data.core.points)
+        update_boosts_status()
     }).catch(error => console.log(error))
+}
+
+function update_boosts_status() {
+    const money = Number(document.getElementById('points').innerText)
+    const boosts = document.getElementsByClassName('boost-container');
+    for (var i = 0; i < boosts.length; i++) {
+        let boost = boosts[i]
+        let price = Number(boost.querySelector('#boost_price').innerText)
+        if (price <= money) {
+            boost.classList.remove('inactive')
+        } else {
+            boost.classList.add('inactive')
+        }
+    }
 }
 
 function get_boosts() {
@@ -41,7 +63,7 @@ function get_boosts() {
         }
         return Promise.reject(response)
     }).then(boosts => {
-        const panel = document.getElementById('boosts-holder')
+        const panel = document.getElementById('boost-holder')
         panel.innerHTML = ''
         boosts.forEach(boost => {
             add_boost(panel, boost)
@@ -50,16 +72,18 @@ function get_boosts() {
 }
 
 function add_boost(parent, boost) {
-    const button = document.createElement('button')
-    button.setAttribute('class', 'boost')
-    button.setAttribute('id', `boost_${boost.id}`)
-    button.setAttribute('onclick', `buy_boost(${boost.id})`)
-    button.innerHTML = `
-        <p>Уровень: <span id="boost_level">${boost.level}</span></p>
-        <p>+<span id="boost_power">${boost.power}</span></p>
-        <p>Цена: <span id="boost_price">${boost.price}</span></p>
+    const container = document.createElement('div')
+    container.setAttribute('class', 'boost-container')
+    container.setAttribute('id', `boost_${boost.id}`)
+    container.innerHTML = `
+        <img src="${boost.img_rel_url}" class="boost-image">
+        <span class="boost-name" id="boost_name">${boost.name}</span>
+        <p class="boost-level">Уровень: <span id="boost_level">${boost.level}</span></p>
+        <p class="boost-power">+<span id="boost_power">${boost.power}</span></p>
+        <p class="boost-price">Цена: <span id="boost_price">${boost.price}</span></p>
+        <button class="boost-buy-button" onclick="buy_boost(${boost.id})"><p>Купить</p></button>
     `
-    parent.appendChild(button)
+    parent.appendChild(container)
 }
 
 function getCookie(name) {
@@ -93,7 +117,6 @@ function buy_boost(boost_id) {
     }).then(response => {
         if (response.error) return
         if (!response.is_bought) {
-            alert("Недостаточно денег")
             return
         }
         const old_boost_stats = response.old_stats
@@ -107,6 +130,7 @@ function buy_boost(boost_id) {
 
         update_boost(new_boost_stats) // Обновляем буст на фронтике
     }).catch(err => console.log(err))
+    update_boosts_status()
 }
 
 /** Функция для обновления буста на фронтике */

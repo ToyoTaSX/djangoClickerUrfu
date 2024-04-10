@@ -6,16 +6,34 @@
     <title>Кликер</title>
     <script src="{% static 'js/script.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"/>
+    <link rel="icon" type="image/png" href="{% static 'img/icon.png' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Playfair+Display:wght@400;700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
 <main>
-<div class="clicker">
-    <h2>Монетки <span id="points"></span></h2>
-    <h3>Сила <span id="click-power"></span></h3>
-    <button onclick="call_click()"><span>клик</span></button>
+<div class="clicker-container">
+    <img src="{% static 'img/click_images/frame0.png' %}" class="hardbass" id="hardbass-img">
+    <div class="clicker">
+        <h2>Счастье <span id="points"></span></h2>
+        <h3>Количество собутыльников <span id="click-power"></span></h3>
+        <button onclick="call_click()"><span>клик</span></button>
+    </div>
 </div>
-<div>
-    <div id="boosts-holder">
+<div class="boosts">
+    <div class="boosts-title-container">
+        <p>Пятерочка</p>
+    </div>
+    <div class="boost-holder" id="boost-holder">
+{#        <div class="boost-container">#}
+{#            <img src="{% static 'img/boost_images/1.png' %}" class="boost-image">#}
+{#            <p>Название: <span id="boost_name"></span></p>#}
+{#            <p>Уровень: <span id="boost_level">5</span></p>#}
+{#            <p>+<span id="boost_power">50</span></p>#}
+{#            <p>Цена: <span id="boost_price">1000</span></p>#}
+{#            <button class="boost-buy-button" onclick="buy_boost(2)">Купить</button>#}
+{#        </div>#}
     </div>
 </div>
 </main>

@@ -28,7 +28,7 @@ class ClickView(APIView):
     def get(self, request):
         core = Core.objects.get(user=request.user)
         is_level_up = core.click()
-        if is_level_up:
+        if is_level_up and core.level <= 13:
             Boost.objects.create(core=core, price=(core.level - 1) * 100, power=(core.level - 1) * 100,)
         return JsonResponse({'core': CoreSerializer(core).data, 'is_level_up': is_level_up})
 

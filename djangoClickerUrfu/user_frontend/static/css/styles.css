@@ -1,0 +1,146 @@
+h1, h2, h3, p, span, body {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-image: url("/static/img/background.jpg");
+
+}
+
+main {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+}
+
+.hardbass {
+    display: block;
+    height: 400px;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50px;
+}
+
+.boosts {
+    height: 100%;
+    background-color: rgba(112, 54, 54, 0.96);
+}
+
+.boosts-title-container {
+    background-color: rgba(76,21,22,0.96);
+}
+
+.boosts-title-container > p{
+    color: white;
+    font-size: 32px;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-family: Roboto, serif;
+    width: fit-content;
+    display: block;
+    margin: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.boost-holder {
+    width: 100%;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));;
+    gap: 10px;
+    padding: 15px;
+}
+
+.boost-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background-color: #ffedbe;
+    border-radius: 15px;
+    padding: 15px;
+    font-family: Roboto, serif;
+}
+
+.boost-image {
+    display: block;
+    height: 60px;
+    width: auto;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.boost-name {
+    display: block;
+    margin: 10px auto auto;
+    width: fit-content;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.inactive {
+    opacity: 60%;
+}
+
+.inactive * {
+    pointer-events: none;
+}
+
+.boost-level {
+    margin-top: 5px;
+}
+
+.boost-power {
+    margin-top: 5px;
+}
+
+.boost-price {
+    margin-top: 5px;
+}
+
+.boost-buy-button {
+  margin-top: 5px;
+  display: inline-block;
+  padding: 3px 5px;
+  border-radius: 15px;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 14px;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(76,21,22,0.96);
+    border-radius: 15px;
+    z-index: -2;
+  }
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: rgba(145, 96, 96, 0.96);
+    transition: all .3s;
+    border-radius: 15px;
+    z-index: -1;
+  }
+  &:hover {
+    color: #fff;
+    &:before {
+      width: 100%;
+    }
+  }
+}
