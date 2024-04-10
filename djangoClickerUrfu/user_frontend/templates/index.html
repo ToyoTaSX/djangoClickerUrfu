@@ -14,11 +14,21 @@
 <body>
 <main>
 <div class="clicker-container">
-    <img src="{% static 'img/click_images/frame0.png' %}" class="hardbass" id="hardbass-img">
+    <div class="clicker-title-container">
+        <p>Чемпион</p>
+    </div>
     <div class="clicker">
-        <h2>Счастье <span id="points"></span></h2>
-        <h3>Количество собутыльников <span id="click-power"></span></h3>
-        <button onclick="call_click()"><span>клик</span></button>
+        <div class="stats">
+            <h2>Уровень веселья<br><span id="points" class="points"></span></h2>
+            <br>
+            <h3>Количество собутыльников<br><span id="click-power" class="power"></span></h3>
+        </div>
+        <img src="{% static 'img/click_images/frame0.png' %}" class="hardbass" id="hardbass-img">
+        <button onclick="call_click()" class="click-button round-button">
+            <div class="round-button-circle">
+                <span class="round-button">Веселиться</span>
+            </div>
+        </button>
     </div>
 </div>
 <div class="boosts">

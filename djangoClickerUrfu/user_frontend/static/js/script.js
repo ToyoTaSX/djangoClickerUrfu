@@ -68,6 +68,7 @@ function get_boosts() {
         boosts.forEach(boost => {
             add_boost(panel, boost)
         })
+        update_boosts_status()
     }).catch(error => console.log(error))
 }
 
@@ -129,8 +130,8 @@ function buy_boost(boost_id) {
         powerElement.innerText = Number(powerElement.innerText) + old_boost_stats.power
 
         update_boost(new_boost_stats) // Обновляем буст на фронтике
+        update_boosts_status()
     }).catch(err => console.log(err))
-    update_boosts_status()
 }
 
 /** Функция для обновления буста на фронтике */
@@ -142,10 +143,8 @@ function update_boost(boost) {
 }
 
 function check_win(points){
-    if (points >= 1000000000) {
-        /**
-        window.location.replace("http://stackoverflow.com");
-         **/
+    if (points >= 1000000) {
+        window.location.replace("https://www.youtube.com/watch?v=SD7TJF452zs");
         console.log("winner")
     }
 }
